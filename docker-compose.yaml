@@ -1,0 +1,53 @@
+version: "3.8"
+
+networks:
+  web:
+    driver: bridge
+  db:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local
+
+services:
+  nginx:
+    image: nginx:stable-alpine
+    container_name: interestingFacts_nginx
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d/default.conf:/etc/nginx/conf.d/default.conf:rc
+    ports:
+      - "8080:80"
+    depends_on:
+      - app
+    networks:
+      - web
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/dockerfile
+    container_name: interestingFacts_php
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - web
+      - db
+  db:
+    image: postgres:15-alpine
+    container_name: interestingFacts_db
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    networks:
+      - db
