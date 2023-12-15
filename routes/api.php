@@ -20,3 +20,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('categories', CategoryController::class)->scoped(['category' => 'slug']);
+Route::apiResource('formatTypes', FormatTypeController::class);
