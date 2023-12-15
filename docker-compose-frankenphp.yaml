@@ -1,0 +1,49 @@
+version: "3.8"
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  db:
+    driver: local
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/frankenphp/Dockerfile
+    container_name: interestingFacts_frankenphp
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "80:80"
+      - "443:433"
+    volumes:
+      - ./:/app
+      - caddy_data:/data
+      - caddy_config:/config
+    tty: true
+    depends_on:
+      - db
+    networks:
+      - db
+  db:
+    image: postgres:15-alpine
+    container_name: interestingFacts_db
+    restart: unless-stopped
+    volumes:
+      - db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    networks:
+      - db
