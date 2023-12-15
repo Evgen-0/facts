@@ -27,7 +27,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: docker/php/dockerfile
+      dockerfile: docker/php/Dockerfile
     container_name: interestingFacts_php
     restart: unless-stopped
     volumes:
