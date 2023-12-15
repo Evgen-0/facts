@@ -20,7 +20,7 @@ class CategoryControllerTest extends TestCase
 
     public function testGet()
     {
-        $response = $this->getJson('/api/v1/categories');
+        $response = $this->getJson(route('categories.index'));
 
         $response->assertOk();
 
@@ -35,7 +35,7 @@ class CategoryControllerTest extends TestCase
         $data = $this->category->toArray();
         $this->category->delete();
 
-        $response = $this->postJson('/api/v1/categories', $data);
+        $response = $this->postJson(route('categories.store'), $data);
 
         $response->assertCreated();
 
@@ -45,7 +45,7 @@ class CategoryControllerTest extends TestCase
 
     public function testShow()
     {
-        $response = $this->getJson("/api/v1/categories/{$this->category->slug}");
+        $response = $this->getJson(route('categories.show', $this->category->slug));
 
         $response->assertOk();
 
@@ -58,7 +58,7 @@ class CategoryControllerTest extends TestCase
 
         $this->category->name = 'No name';
 
-        $response = $this->patchJson("/api/v1/categories/{$this->category->slug}", $this->category->toArray());
+        $response = $this->patchJson(route('categories.update', $this->category->slug), $this->category->toArray());
 
         $response->assertOk();
 
@@ -69,7 +69,7 @@ class CategoryControllerTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        $response = $this->deleteJson("/api/v1/categories/{$this->category->slug}");
+        $response = $this->deleteJson(route('categories.destroy', $this->category->slug));
 
         $response->assertOk();
 
