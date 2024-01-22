@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FactController;
 use App\Http\Controllers\FormatTypeController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,3 +25,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::apiResource('categories', CategoryController::class)->scoped(['category' => 'slug']);
 Route::apiResource('formatTypes', FormatTypeController::class);
 Route::apiResource('facts', FactController::class)->scoped(['fact' => 'slug']);
+Route::apiResource('users', UserController::class)->except('store');
