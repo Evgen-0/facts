@@ -15,7 +15,7 @@ class Fact extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $with = ['formatTypes'];
+    protected $with = ['formatType'];
 
     public $timestamps = false;
 
@@ -23,7 +23,7 @@ class Fact extends Model
         'media_type' => MediaType::class,
     ];
 
-    public function formatTypes(): BelongsTo
+    public function formatType(): BelongsTo
     {
         return $this->belongsTo(FormatType::class);
     }

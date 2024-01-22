@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('facts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('format_types_id')->constrained();
+            $table->foreignUuid('format_type_id')->constrained();
             $table->string('media_type', 128);
             $table->string('media')->nullable();
             $table->string('body', 400);

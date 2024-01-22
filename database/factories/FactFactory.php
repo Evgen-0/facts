@@ -21,7 +21,7 @@ class FactFactory extends Factory
     {
         return [
             'id' => fake()->uuid(),
-            'format_types_id' => FormatType::factory()->create()->id,
+            'format_type_id' => FormatType::factory()->create()->id,
             'media_type' => fake()->randomElement(MediaType::getAllCaseValues()),
             'media' => fake()->imageUrl(),
             'body' => fake()->paragraph(4),

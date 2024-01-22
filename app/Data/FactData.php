@@ -22,7 +22,7 @@ class FactData extends Data
         #[Uuid]
         public ?string $id,
         #[Uuid]
-        public string $formatTypesId,
+        public string $formatTypeId,
         #[WithCast(EnumCast::class)]
         #[Enum(MediaType::class)]
         public MediaType $mediaType,
@@ -41,7 +41,7 @@ class FactData extends Data
         #[Max(255)]
         #[Nullable]
         public ?string $description,
-        public FormatTypeData|Optional $formatTypes,
+        public FormatTypeData|Optional $formatType,
     ) {
     }
 }
