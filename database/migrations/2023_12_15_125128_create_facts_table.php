@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,13 +15,16 @@ return new class extends Migration
     {
         Schema::create('facts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('format_type_id')->constrained();
-            $table->string('media_type', 128);
-            $table->string('media')->nullable();
-            $table->string('body', 400);
-            $table->string('slug')->unique();
-            $table->string('title');
-            $table->string('description')->nullable();
+            $table->string('heading', 128);
+            $table->string('body', 400)->nullable();
+            $table->foreignIdFor(User::class)->constrained();
+            $table->foreignIdFor(Category::class)
+                ->nullable()
+                ->constrained()
+                ->nullOnDelete();
+            $table->string('slug', 128)->unique();
+            $table->string('title', 128);
+            $table->string('description', 256)->nullable();
         });
     }
 
