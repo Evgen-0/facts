@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('name', 128);
             $table->json('aliases')->nullable();
             $table->string('photo', 128)->nullable();
-            $table->string('animation', 128)->nullable();
-            $table->string('slug')->unique();
-            $table->string('title');
-            $table->string('description')->nullable();
+            $table->string('slug', 128)->unique();
+            $table->string('title', 128);
+            $table->string('description', 256)->nullable();
         });
     }
 

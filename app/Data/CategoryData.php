@@ -2,7 +2,9 @@
 
 namespace App\Data;
 
+use Illuminate\Validation\Rule;
 use Spatie\LaravelData\Attributes\MapName;
+use Spatie\LaravelData\Attributes\Validation\Json;
 use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Attributes\Validation\Nullable;
 use Spatie\LaravelData\Attributes\Validation\Required;
@@ -16,22 +18,20 @@ class CategoryData extends Data
 {
     public function __construct(
         #[Uuid]
-        public ?string $id,
+        public string|Optional $id,
         #[Max(128)]
         #[Required]
         public string $name,
         #[Nullable]
+        #[Json]
         public ?string $aliases,
         #[Max(128)]
         #[Nullable]
         public ?string $photo,
         #[Max(128)]
-        #[Nullable]
-        public ?string $animation,
-        #[Max(255)]
         #[Required]
         public string $slug,
-        #[Max(255)]
+        #[Max(128)]
         #[Required]
         public string $title,
         #[Max(255)]
@@ -43,4 +43,13 @@ class CategoryData extends Data
         public CategoryData|Optional|null $parent,
     ) {
     }
+
+    public static function rules(): array
+    {
+        return [
+            'slug' => ['required', 'string', 'max:128', Rule::unique('categories', 'slug')
+                ->ignore(request()->input('id'), 'id')],
+        ];
+    }
+
 }
