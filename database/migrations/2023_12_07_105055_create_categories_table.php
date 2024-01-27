@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('slug', 128)->unique();
             $table->string('title', 128);
             $table->string('description', 256)->nullable();
+            $table->timestamps();
         });
     }
 
