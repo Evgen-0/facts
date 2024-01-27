@@ -42,4 +42,9 @@ class Fact extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    public function collections(): BelongsToMany
+    {
+        return $this->belongsToMany(Collection::class);
+    }
 }
