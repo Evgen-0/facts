@@ -15,7 +15,7 @@ class Fact extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $with = ['user'];
+    protected $with = ['user', 'category', 'comments', 'likes'];
 
     public function user(): BelongsTo
     {
@@ -30,5 +30,10 @@ class Fact extends Model
     public function comments(): MorphMany
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable');
     }
 }

@@ -2,15 +2,15 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
 use App\Models\Fact;
+use App\Models\Like;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Fact>
+ * @extends Factory<Like>
  */
-class FactFactory extends Factory
+class LikeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,14 +19,12 @@ class FactFactory extends Factory
      */
     public function definition(): array
     {
+        $fact = Fact::factory()->create();
         return [
-            'heading' => fake()->sentence(2),
-            'body' => fake()->paragraph(4),
             'user_id' => User::factory()->create()->id,
-            'category_id' => Category::factory()->create()->id,
-            'slug' => fake()->slug(2),
-            'title' => fake()->sentence(2),
-            'description' => fake()->paragraph(1),
+            'is_like' => $this->faker->boolean,
+            'likeable_type' => $fact::class,
+            'likeable_id' => $fact->id,
         ];
     }
 }
