@@ -2,14 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
-use App\Models\UserStat;
+use App\Models\Fact;
+use App\Models\FactStat;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<UserStat>
+ * @extends Factory<FactStat>
  */
-class UserStatFactory extends Factory
+class FactStatFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,12 +19,10 @@ class UserStatFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => User::factory()->create()->id,
-            'facts' => fake()->numberBetween(0, 1000),
+            'fact_id' => Fact::factory()->create()->id,
+            'views' => fake()->numberBetween(0, 1000),
             'likes' => fake()->numberBetween(0, 1000),
             'comments' => fake()->numberBetween(0, 1000),
-            'collections' => fake()->numberBetween(0, 1000),
-            'likes_received' => fake()->numberBetween(0, 1000),
         ];
     }
 }

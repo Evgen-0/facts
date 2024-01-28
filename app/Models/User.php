@@ -55,4 +55,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserLink::class);
     }
+
+    public function stats(): HasOne
+    {
+        return $this->hasOne(UserStat::class);
+    }
 }
