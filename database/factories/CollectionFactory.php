@@ -2,15 +2,14 @@
 
 namespace Database\Factories;
 
-use App\Models\Category;
-use App\Models\Fact;
+use App\Models\Collection;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<Fact>
+ * @extends Factory<Collection>
  */
-class FactFactory extends Factory
+class CollectionFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -20,10 +19,8 @@ class FactFactory extends Factory
     public function definition(): array
     {
         return [
-            'heading' => fake()->sentence(2),
-            'body' => fake()->paragraph(4),
             'user_id' => User::factory()->create()->id,
-            'category_id' => Category::factory()->create()->id,
+            'name' => fake()->word,
             'slug' => fake()->slug(2),
             'title' => fake()->sentence(2),
             'description' => fake()->paragraph(1),
