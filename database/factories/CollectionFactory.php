@@ -20,7 +20,7 @@ class CollectionFactory extends Factory
     {
         return [
             'user_id' => User::factory()->create()->id,
-            'name' => $this->faker->word,
+            'name' => fake()->word,
             'slug' => fake()->slug(2),
             'title' => fake()->sentence(2),
             'description' => fake()->paragraph(1),
