@@ -14,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('media_files', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignIdFor(Fact::class)->constrained();
+            $table->foreignIdFor(Fact::class)->constrained()->cascadeOnDelete();
             $table->string('type', 255);
             $table->string('file', 255);
             $table->timestamps();
