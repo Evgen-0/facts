@@ -16,7 +16,7 @@ class Collection extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $with = ['user'];
+    protected $with = ['user', 'stats'];
 
     public function user(): BelongsTo
     {
