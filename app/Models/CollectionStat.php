@@ -8,16 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * @mixin IdeHelperUserStat
+ * @mixin IdeHelperCollectionStat
  */
-class UserStat extends Model
+class CollectionStat extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $with = ['user'];
-
-    public function user(): BelongsTo
+    public function collection(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Collection::class);
     }
 }
