@@ -22,7 +22,6 @@ class CommentData extends Data
         public ?string $parentId,
         public UserData|Optional $user,
         public CommentData|Optional $parent,
-    )
-    {
+    ) {
     }
 }

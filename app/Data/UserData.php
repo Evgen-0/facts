@@ -36,7 +36,8 @@ class UserData extends Data
         #[Max(255)]
         #[Nullable]
         public ?string $description,
-    ) {}
+    ) {
+    }
 
     public static function rules(): array
     {
@@ -49,5 +50,4 @@ class UserData extends Data
                 ->ignore(request()->input('id'), 'id')],
         ];
     }
-
 }

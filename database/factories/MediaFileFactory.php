@@ -22,7 +22,7 @@ class MediaFileFactory extends Factory
         return [
             'fact_id' => Fact::factory()->create()->id,
             'type' => fake()->randomElement(MediaType::getAllCaseValues()),
-            'file' => fake()->imageUrl()
+            'file' => fake()->imageUrl(),
         ];
     }
 }

@@ -30,8 +30,7 @@ class TagData extends Data
         #[Max(255)]
         #[Nullable]
         public ?string $description,
-    )
-    {
+    ) {
     }
 
     public static function rules(): array
@@ -41,5 +40,4 @@ class TagData extends Data
                 ->ignore(request()->input('id'), 'id')],
         ];
     }
-
 }

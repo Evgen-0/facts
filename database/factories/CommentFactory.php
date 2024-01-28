@@ -20,6 +20,7 @@ class CommentFactory extends Factory
     public function definition(): array
     {
         $fact = Fact::factory()->create();
+
         return [
             'user_id' => User::factory()->create()->id,
             'body' => fake()->paragraph(2),

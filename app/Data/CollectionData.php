@@ -31,8 +31,7 @@ class CollectionData extends Data
         #[Nullable]
         public ?string $description,
         public UserData|Optional $user,
-    )
-    {
+    ) {
     }
 
     public static function rules(): array
@@ -42,5 +41,4 @@ class CollectionData extends Data
                 ->ignore(request()->input('id'), 'id')],
         ];
     }
-
 }

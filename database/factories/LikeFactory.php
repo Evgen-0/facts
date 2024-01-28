@@ -20,9 +20,10 @@ class LikeFactory extends Factory
     public function definition(): array
     {
         $fact = Fact::factory()->create();
+
         return [
             'user_id' => User::factory()->create()->id,
-            'is_like' => $this->faker->boolean,
+            'is_like' => fake()->boolean,
             'likeable_type' => $fact::class,
             'likeable_id' => $fact->id,
         ];

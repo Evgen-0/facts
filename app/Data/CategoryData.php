@@ -51,5 +51,4 @@ class CategoryData extends Data
                 ->ignore(request()->input('id'), 'id')],
         ];
     }
-
 }

@@ -50,5 +50,4 @@ class FactData extends Data
                 ->ignore(request()->input('id'), 'id')],
         ];
     }
-
 }

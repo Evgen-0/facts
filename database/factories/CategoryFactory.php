@@ -18,7 +18,6 @@ class CategoryFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => fake()->uuid(),
             'name' => fake()->sentence(3),
             'aliases' => json_encode([['name' => 'test']]),
             'photo' => fake()->imageUrl(),

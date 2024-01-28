@@ -18,6 +18,4 @@ class Tag extends Model
     {
         return $this->belongsToMany(Fact::class);
     }
-
-
 }
