@@ -17,7 +17,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasUuids, HasFactory, Notifiable;
 
-    protected $with = ['link'];
+    protected $with = ['link', 'stats'];
 
     /**
      * The attributes that are mass assignable.
@@ -29,6 +29,9 @@ class User extends Authenticatable
         'email',
         'password',
         'photo',
+        'slug',
+        'title',
+        'description',
     ];
 
     /**
