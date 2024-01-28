@@ -21,7 +21,7 @@ class CommentData extends Data
         #[Nullable]
         public ?string $parentId,
         public UserData|Optional $user,
-        public CommentData|Optional $parent,
+        public CommentData|Optional|null $parent,
     ) {
     }
 }
