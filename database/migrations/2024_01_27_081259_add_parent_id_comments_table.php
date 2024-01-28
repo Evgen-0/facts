@@ -11,9 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('format_types', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->string('name', 128);
+        Schema::table('comments', function (Blueprint $table) {
+            $table->foreignUuid('parent_id')
+                ->nullable()
+                ->constrained('comments')
+                ->cascadeOnDelete();
         });
     }
 
@@ -22,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('format_types');
+        Schema::table('comments', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('parent_id');
+        });
     }
 };

@@ -2,13 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\FormatType;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends Factory<FormatType>
+ * @extends Factory<Tag>
  */
-class FormatTypeFactory extends Factory
+class TagFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,8 +18,11 @@ class FormatTypeFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => fake()->uuid(),
             'name' => fake()->word(),
+            'image' => fake()->imageUrl(),
+            'slug' => fake()->slug(2),
+            'title' => fake()->sentence(2),
+            'description' => fake()->paragraph(1),
         ];
     }
 }
