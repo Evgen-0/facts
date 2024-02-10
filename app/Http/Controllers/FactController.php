@@ -7,9 +7,49 @@ use App\Models\Fact;
 use Spatie\LaravelData\CursorPaginatedDataCollection;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\PaginatedDataCollection;
+use function auth;
 
 class FactController extends Controller
 {
+    public function favorite(Fact $fact): void
+    {
+        $isFavorite = $fact->favorites()->where('user_id', auth()->id());
+        if ($isFavorite->exists()) {
+            $isFavorite->delete();
+
+            return;
+        }
+
+        $fact->favorites()->create(['user_id' => auth()->id()]);
+    }
+
+    public function like(Fact $fact): void
+    {
+        $this->toggleLike($fact, true);
+    }
+
+    public function dislike(Fact $fact): void
+    {
+        $this->toggleLike($fact, false);
+    }
+
+    public function toggleLike(Fact $fact, bool $isLike): void
+    {
+        $isLike = $fact->likes()->where('user_id', auth()->id());
+        if ($isLike->exists()) {
+            $existingLike = $isLike->first();
+            if ($existingLike->is_like === $isLike) {
+                $existingLike->delete();
+            } else {
+                $existingLike->update(['is_like' => $isLike]);
+            }
+
+            return;
+        }
+
+        $fact->likes()->create(['user_id' => auth()->id(), 'is_like' => $isLike]);
+    }
+
     /**
      * Display a listing of the resource.
      */

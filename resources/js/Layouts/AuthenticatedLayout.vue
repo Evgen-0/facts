@@ -2,21 +2,21 @@
 import {computed, ref} from 'vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
-import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import {Link, usePage} from '@inertiajs/vue3';
+import {Head, Link, usePage} from '@inertiajs/vue3';
 import UserIcon from "@/Components/UserIcon.vue";
 import SearchIcon from "@/Components/SearchIcon.vue";
+import Button from "primevue/button";
 
 const showingNavigationDropdown = ref(false);
 
-const page = usePage()
+const visible = ref(true);
 
-const user = computed(() => page.props.auth.user);
-console.log(user.value?.name);
+const user = computed(() => usePage().props.auth.user);
 </script>
 
 <template>
+  <Head title="Home" />
   <div>
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
       <nav class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
@@ -31,16 +31,6 @@ console.log(user.value?.name);
                     Facts
                   </h1>
                 </Link>
-              </div>
-
-              <!-- Navigation Links -->
-              <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                <NavLink
-                  :href="route('dashboard')"
-                  :active="route().current('dashboard')"
-                >
-                  Dashboard
-                </NavLink>
               </div>
             </div>
 
@@ -58,22 +48,38 @@ console.log(user.value?.name);
                         type="button"
                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150"
                       >
-                        <user-icon />
+                        <img
+                          v-if="!!user?.photo"
+                          class="h-8 w-8 rounded-full"
+                          :src="user?.photo"
+                          :alt="user?.name"
+                        >
+                        <user-icon v-else />
                       </button>
                     </span>
                   </template>
 
                   <template #content>
-                    <DropdownLink :href="route('profile.edit')">
-                      Profile
-                    </DropdownLink>
-                    <DropdownLink
-                      :href="route('logout')"
-                      method="post"
-                      as="button"
-                    >
-                      Log Out
-                    </DropdownLink>
+                    <div v-if="!!user">
+                      <DropdownLink :href="route('profile.edit')">
+                        Profile
+                      </DropdownLink>
+                      <DropdownLink
+                        :href="route('logout')"
+                        method="post"
+                        as="button"
+                      >
+                        Log Out
+                      </DropdownLink>
+                    </div>
+                    <div v-if="!!!user">
+                      <DropdownLink :href="route('login')">
+                        Login
+                      </DropdownLink>
+                      <DropdownLink :href="route('register')">
+                        Register
+                      </DropdownLink>
+                    </div>
                   </template>
                 </Dropdown>
               </div>
@@ -124,10 +130,34 @@ console.log(user.value?.name);
         >
           <div class="pt-2 pb-3 space-y-1">
             <ResponsiveNavLink
-              :href="route('dashboard')"
-              :active="route().current('dashboard')"
+              :href="route('home')"
+              :active="route().current('home')"
             >
-              Dashboard
+              Home
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              :href="route('top')"
+              :active="route().current('top')"
+            >
+              Top
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              :href="route('top')"
+              :active="route().current('top')"
+            >
+              Category
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              :href="route('top')"
+              :active="route().current('top')"
+            >
+              Collection
+            </ResponsiveNavLink>
+            <ResponsiveNavLink
+              :href="route('top')"
+              :active="route().current('top')"
+            >
+              Tags
             </ResponsiveNavLink>
           </div>
 
@@ -177,22 +207,104 @@ console.log(user.value?.name);
             </div>
           </div>
         </div>
+        <slot
+          class="max-w-7xl"
+          name="breadcrumb"
+        />
       </nav>
 
-      <!-- Page Heading -->
-      <!--      <header-->
-      <!--        v-if="$slots.header"-->
-      <!--        class="bg-white dark:bg-gray-800 shadow"-->
-      <!--      >-->
-      <!--        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">-->
-      <!--          <slot name="header" />-->
-      <!--        </div>-->
-      <!--      </header>-->
-
-      <!-- Page Content -->
-      <main>
-        <slot />
+      <main class="flex container mx-auto">
+        <aside class="sm:w-1/3 lg:w-1/5 h-screen sticky top-0 hidden sm:block">
+          <div class="flex flex-col h-full">
+            <div class="flex items-center justify-between px-4 pt-4 shrink-0">
+              <span class="inline-flex items-center gap-2">
+                <span class="font-semibold text-2xl text-black dark:text-white select-none">Facts</span>
+              </span>
+            </div>
+            <div class="overflow-y-auto mt-4">
+              <ul class="list-none px-4 m-0">
+                <li>
+                  <div
+                    class="p-3 flex items-center justify-between text-black dark:text-white cursor-pointer rounded-md"
+                    @click="visible = !visible"
+                  >
+                    <span class="font-medium">FAVORITES</span>
+                    <i
+                      class="pi"
+                      :class="visible ? 'pi-chevron-down' : 'pi-chevron-up'"
+                    />
+                  </div>
+                  <ul
+                    v-if="visible"
+                    class="list-none p-0 m-0 overflow-hidden"
+                  >
+                    <li>
+                      <Link
+                        class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
+                        :href="route('home')"
+                      >
+                        <i class="pi pi-home mr-2" />
+                        <span class="font-medium">Home</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
+                        :href="route('top')"
+                      >
+                        <i class="pi pi-chart-bar mr-2" />
+                        <span class="font-medium">Top</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
+                        :href="route('top')"
+                      >
+                        <i class="pi pi-hashtag mr-2" />
+                        <span class="font-medium">Category</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
+                        :href="route('top')"
+                      >
+                        <i class="pi pi-at mr-2" />
+                        <span class="font-medium">Collection</span>
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
+                        :href="route('top')"
+                      >
+                        <i class="pi pi-tag mr-2" />
+                        <span class="font-medium">Tags</span>
+                      </Link>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+        <div class="sm:w-2/3 lg:w-3/6">
+          <slot />
+        </div>
       </main>
+
+      <footer class="bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700 mt-4">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div class="flex items-center justify-between h-16">
+            <div class="flex">
+              <span class="text-sm text-gray-500 dark:text-gray-400">
+                &copy; 2024 Facts
+              </span>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   </div>
 </template>

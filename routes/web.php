@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\FactController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Fact;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,18 +18,16 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('MainLayout');
-//    return Inertia::render('Welcome', [
-//        'canLogin' => Route::has('login'),
-//        'canRegister' => Route::has('register'),
-//        'laravelVersion' => Application::VERSION,
-//        'phpVersion' => PHP_VERSION,
-//    ]);
+    $facts = Fact::paginate();
+
+    return Inertia::render('Home', compact('facts'));
 })->name('home');
 
-Route::get('test', function () {
-    return Inertia::render('MainLayout');
-});
+Route::get('top', function () {
+    $facts = Fact::paginate();
+
+    return Inertia::render('Top', compact('facts'));
+})->name('top');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -37,6 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::post('/fact/{fact}/favorite', [FactController::class, 'favorite'])->name('fact.favorite');
+    Route::post('/fact/{fact}/like', [FactController::class, 'like'])->name('fact.like');
+    Route::post('/fact/{fact}/dislike', [FactController::class, 'dislike'])->name('fact.dislike');
 });
 
 require __DIR__.'/auth.php';
