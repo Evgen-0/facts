@@ -21,7 +21,7 @@ class FactFactory extends Factory
     {
         return [
             'heading' => fake()->sentence(2),
-            'body' => fake()->paragraph(4),
+            'body' => fake()->imageUrl(),
             'user_id' => User::factory()->create()->id,
             'category_id' => Category::factory()->create()->id,
             'slug' => fake()->slug(2),

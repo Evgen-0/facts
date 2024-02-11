@@ -10,6 +10,45 @@ use Spatie\LaravelData\PaginatedDataCollection;
 
 class FactController extends Controller
 {
+    public function favorite(Fact $fact): void
+    {
+        $isFavorite = $fact->favorites()->where('user_id', auth()->id());
+        if ($isFavorite->exists()) {
+            $isFavorite->delete();
+
+            return;
+        }
+
+        $fact->favorites()->create(['user_id' => auth()->id()]);
+    }
+
+    public function like(Fact $fact): void
+    {
+        $this->toggleLike($fact, true);
+    }
+
+    public function dislike(Fact $fact): void
+    {
+        $this->toggleLike($fact, false);
+    }
+
+    public function toggleLike(Fact $fact, bool $isLike): void
+    {
+        $like = $fact->likes()->where('user_id', auth()->id());
+        if ($like->exists()) {
+            $existingLike = $like->first();
+            if ($existingLike->is_like === $isLike) {
+                $existingLike->delete();
+            } else {
+                $existingLike->update(['is_like' => $isLike]);
+            }
+
+            return;
+        }
+
+        $fact->likes()->create(['user_id' => auth()->id(), 'is_like' => $isLike]);
+    }
+
     /**
      * Display a listing of the resource.
      */

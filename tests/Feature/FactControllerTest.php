@@ -25,7 +25,6 @@ class FactControllerTest extends TestCase
         $response->assertOk();
 
         $response->assertJsonPath('data.0.id', $this->fact->id);
-
     }
 
     public function testStore()
@@ -40,7 +39,6 @@ class FactControllerTest extends TestCase
         $response->assertCreated();
 
         $this->assertDatabaseCount('facts', 1);
-
     }
 
     public function testShow()
