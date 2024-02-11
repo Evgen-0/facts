@@ -64,5 +64,4 @@ class Fact extends Model
     {
         return $this->hasOne(FactStat::class);
     }
-
 }

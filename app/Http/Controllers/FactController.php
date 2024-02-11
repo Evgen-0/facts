@@ -7,7 +7,6 @@ use App\Models\Fact;
 use Spatie\LaravelData\CursorPaginatedDataCollection;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\PaginatedDataCollection;
-use function auth;
 
 class FactController extends Controller
 {
@@ -35,9 +34,9 @@ class FactController extends Controller
 
     public function toggleLike(Fact $fact, bool $isLike): void
     {
-        $isLike = $fact->likes()->where('user_id', auth()->id());
-        if ($isLike->exists()) {
-            $existingLike = $isLike->first();
+        $like = $fact->likes()->where('user_id', auth()->id());
+        if ($like->exists()) {
+            $existingLike = $like->first();
             if ($existingLike->is_like === $isLike) {
                 $existingLike->delete();
             } else {
