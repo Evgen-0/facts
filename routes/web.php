@@ -33,6 +33,8 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/facts/{fact:slug}', [FactController::class, 'show'])->name('facts.show');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -41,6 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/fact/{fact}/favorite', [FactController::class, 'favorite'])->name('fact.favorite');
     Route::post('/fact/{fact}/like', [FactController::class, 'like'])->name('fact.like');
     Route::post('/fact/{fact}/dislike', [FactController::class, 'dislike'])->name('fact.dislike');
+
+    Route::post('/facts/{fact}/comment', [FactController::class, 'comment'])->name('facts.comment');
 });
 
 require __DIR__.'/auth.php';

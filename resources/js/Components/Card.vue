@@ -91,12 +91,14 @@ function dislike() {
       </Link>
     </template>
     <template #content>
-      <div class="">
-        <img
-          class="w-full h-9/12 rounded-lg"
-          :src="fact.body"
-          :alt="fact.heading"
-        >
+      <div>
+        <a :href="route('facts.show', fact.slug)">
+          <img
+            class="w-full h-9/12 rounded-lg"
+            :src="fact.body"
+            :alt="fact.heading"
+          >
+        </a>
       </div>
     </template>
     <template #footer>
