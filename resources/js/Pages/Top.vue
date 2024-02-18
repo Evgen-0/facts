@@ -54,10 +54,13 @@ const items = ref([
     <div
       v-for="fact in facts.data"
       :key="fact.id"
-      class="flex flex-col justify-center mx-auto mt-4 px-2 sm:px-0"
+      class="flex flex-col justify-center mx-auto sm:mt-4 border-b-gray-600 mb-2"
     >
       <card :fact="fact" />
     </div>
-    <pagination :pagination="facts" />
+    <pagination
+      class="mb-4"
+      :pagination="facts"
+    />
   </authenticated-layout>
 </template>

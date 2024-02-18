@@ -86,16 +86,14 @@ function dislike() {
 
 function commentSubmit() {
   formComment.post(route("facts.comment", props.fact.id), {
-    onSuccess: () => {
-      props.fact.comments.push({id: 1});
-    },
+    preserveScroll: true
   });
 }
 </script>
 
 <template>
   <authenticated-layout>
-    <div class="mt-4">
+    <div class="sm:mt-4">
       <card class="dark:text-white dark:bg-gray-800 p-2">
         <template #header>
           <div class="flex items-center gap-2 m-2">
@@ -113,27 +111,26 @@ function commentSubmit() {
               class="object-cover"
             />
             <div class="transition ease-in hover:text-blue-500 cursor-pointer">
-              <a :href="route('users.show', fact.user.id)">{{ fact.user.name }}</a>
+              <Link :href="route('users.show', fact.user.id)">
+                {{ fact.user.name }}
+              </Link>
             </div>
           </div>
         </template>
         <template #title>
-          <Link
-            :href="route('facts.show', fact.slug)"
-            class="text-lg hover:text-blue-500"
+          <p
+            class="text-lg"
           >
             {{ fact.heading }}
-          </Link>
+          </p>
         </template>
         <template #content>
           <div>
-            <a :href="route('facts.show', fact.slug)">
-              <img
-                class="w-full h-9/12 rounded-lg"
-                :src="fact.body"
-                :alt="fact.heading"
-              >
-            </a>
+            <img
+              class="w-full h-9/12 rounded-lg"
+              :src="fact.body"
+              :alt="fact.heading"
+            >
           </div>
         </template>
         <template #footer>
@@ -176,11 +173,11 @@ function commentSubmit() {
         </template>
       </card>
     </div>
-    <section class="bg-white dark:bg-gray-900 py-8 lg:py-16 antialiased">
+    <section class="bg-white dark:bg-gray-900 pt-4 lg:pt-8 antialiased">
       <div class="mx-auto px-4">
         <div class="flex justify-between items-center mb-6">
           <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-            Comments (20)
+            Comments ({{ fact.comments.length }})
           </h2>
         </div>
         <form
@@ -265,14 +262,6 @@ function commentSubmit() {
             <p class="text-gray-500 dark:text-gray-400">
               {{ comment.body }}
             </p>
-            <div class="flex items-center mt-4 space-x-4">
-              <button
-                type="button"
-                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium"
-              >
-                Reply
-              </button>
-            </div>
           </article>
           <article
             v-if="!!comment.parent"
@@ -326,14 +315,6 @@ function commentSubmit() {
             <p class="text-gray-500 dark:text-gray-400">
               {{ comment.parent.body }}
             </p>
-            <div class="flex items-center mt-4 space-x-4">
-              <button
-                type="button"
-                class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium"
-              >
-                Reply
-              </button>
-            </div>
           </article>
         </template>
       </div>
