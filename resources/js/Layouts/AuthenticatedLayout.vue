@@ -35,7 +35,9 @@ const user = computed(() => usePage().props.auth.user);
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-              <search-icon />
+              <Link :href="route('search')">
+                <search-icon />
+              </Link>
               <!-- Settings Dropdown -->
               <div class="ms-3 relative">
                 <Dropdown
@@ -213,7 +215,7 @@ const user = computed(() => usePage().props.auth.user);
         />
       </nav>
 
-      <main class="flex container mx-auto">
+      <main class="flex container mx-auto m-0 sm:m-auto">
         <aside class="sm:w-1/3 lg:w-1/5 h-screen sticky top-0 hidden sm:block">
           <div class="flex flex-col h-full">
             <div class="flex items-center justify-between px-4 pt-4 shrink-0">

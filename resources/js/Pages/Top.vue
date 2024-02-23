@@ -5,6 +5,7 @@ import Card from "@/Components/Card.vue";
 import Pagination from "@/Components/Pagination.vue";
 
 import {ref} from "vue";
+import {Head} from "@inertiajs/vue3";
 
 const props = defineProps({
   facts: {
@@ -25,7 +26,7 @@ const items = ref([
 </script>
 
 <template>
-  <!--  {{ facts }}-->
+  <head title="Top" />
   <authenticated-layout>
     <template #breadcrumb>
       <div class="border-t text-black border-gray-100 dark:border-gray-700 overflow-auto">

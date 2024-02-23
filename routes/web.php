@@ -3,6 +3,7 @@
 use App\Http\Controllers\FactController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Fact;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -29,6 +30,15 @@ Route::get('top', function () {
     return Inertia::render('Top', compact('facts'));
 })->name('top');
 
+Route::get('search', function (Request $request) {
+    $facts = Fact::paginate();
+    if ($request->has('query')) {
+        $facts = Fact::where('body', 'like', "%{$request->query('query')}%")->paginate();
+    }
+
+    return Inertia::render('Search', compact('facts'));
+})->name('search');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -43,4 +53,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/fact/{fact}/dislike', [FactController::class, 'dislike'])->name('fact.dislike');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
