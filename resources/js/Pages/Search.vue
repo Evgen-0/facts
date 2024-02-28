@@ -75,7 +75,7 @@ function submitSearch() {
           v-for="fact in facts.data"
           :key="fact.id"
         >
-          <Link :href="route('')">
+          <Link :href="route('facts.show', fact.slug)">
             <li class="pb-3 sm:pb-4">
               <div class="flex items-center space-x-4 rtl:space-x-reverse">
                 <div class="flex-shrink-0">
