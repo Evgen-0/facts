@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\FactController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use App\Models\Fact;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,6 +30,8 @@ Route::get('top', function () {
     return Inertia::render('Top', compact('facts'));
 })->name('top');
 
+Route::get('search', [SearchController::class, 'search'])->name('search');
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -47,4 +50,4 @@ Route::middleware('auth')->group(function () {
     Route::post('/facts/{fact}/comment', [FactController::class, 'comment'])->name('facts.comment');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
