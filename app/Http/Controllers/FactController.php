@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Data\CommentData;
 use App\Data\FactData;
 use App\Models\Fact;
+use Inertia\Inertia;
+use Inertia\Response;
 use Spatie\LaravelData\CursorPaginatedDataCollection;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\PaginatedDataCollection;
@@ -20,6 +23,11 @@ class FactController extends Controller
         }
 
         $fact->favorites()->create(['user_id' => auth()->id()]);
+    }
+
+    public function comment(Fact $fact, CommentData $data): void
+    {
+        $fact->comments()->create($data->all());
     }
 
     public function like(Fact $fact): void
@@ -68,9 +76,10 @@ class FactController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Fact $fact): FactData
+    public function show(Fact $fact): Response
     {
-        return FactData::from($fact);
+        $fact->load('comments', 'comments.user');
+        return Inertia::render('Fact', compact('fact'));
     }
 
     /**

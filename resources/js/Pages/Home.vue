@@ -2,8 +2,8 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Breadcrumb from "primevue/breadcrumb";
 import {ref} from "vue";
-import Pagination from "@/Components/Pagination.vue";
 import Card from "@/Components/Card.vue";
+import Pagination from "@/Components/Pagination.vue";
 import {Head} from "@inertiajs/vue3";
 
 const props = defineProps({
@@ -52,7 +52,7 @@ const home = ref({
       v-for="fact in facts.data"
       :key="fact.id"
     >
-      <div class="flex flex-col justify-center mx-auto mt-4 px-2 sm:px-0">
+      <div class="flex flex-col justify-center mx-auto sm:mt-4 border-b-gray-600 mb-2">
         <card :fact="fact" />
       </div>
     </template>

@@ -78,7 +78,9 @@ function dislike() {
           class="object-cover"
         />
         <div class="transition ease-in hover:text-blue-500 cursor-pointer">
-          <a :href="route('users.show', fact.user.id)">{{ fact.user.name }}</a>
+          <Link :href="route('users.show', fact.user.id)">
+            {{ fact.user.name }}
+          </Link>
         </div>
       </div>
     </template>
@@ -91,12 +93,14 @@ function dislike() {
       </Link>
     </template>
     <template #content>
-      <div class="">
-        <img
-          class="w-full h-9/12 rounded-lg"
-          :src="fact.body"
-          :alt="fact.heading"
-        >
+      <div>
+        <Link :href="route('facts.show', fact.slug)">
+          <img
+            class="w-full h-9/12 rounded-lg"
+            :src="fact.body"
+            :alt="fact.heading"
+          >
+        </Link>
       </div>
     </template>
     <template #footer>
