@@ -1,112 +1,103 @@
 <script setup>
-import Dropdown from '@/Components/Dropdown.vue';
-import {reactive, watch} from "vue";
-import {router} from "@inertiajs/vue3";
+import {reactive} from "vue";
+import {Link, router} from "@inertiajs/vue3";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 
-const selected = reactive([
-  {name: 'All', selected: false},
-  {name: 'Fact', selected: false},
-  {name: 'Category', selected: false},
-  {name: 'Collection', selected: false},
-  {name: 'Tag', selected: false},
-]);
-// Потрібно так щоб перша заглавна буква була великою
-let type = new URL(window.location.href).searchParams.get('type') ?? 'all';
-console.log(selected[type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()].selected);
+defineProps({
+  facts: {
+    type: Array,
+    required: true,
+  },
+})
 
 const formSearch = reactive({
   query: new URL(window.location.href).searchParams.get('query'),
-  type: selected[type.charAt(0).toUpperCase() + type.slice(1).toLowerCase()].selected ? type : 'all',
 });
 
 function submitSearch() {
-  const selectedType = selected.find(item => item.selected)?.name.toLowerCase();
-  if (selectedType) {
-    // Додайте параметр type до об'єкта formSearch для передачі в запит
-    formSearch.type = selectedType;
-    // Відправте запит з параметром type
-    router.get(route('search', formSearch), {
+    router.get(route('search'), formSearch, {
       preserveScroll: true,
     });
-  }
 }
-
-function selectItem(item) {
-  selected.forEach((i) => (i.selected = false));
-  item.selected = true;
-}
-
-watch(selected, (value) => {
-  const selectedItem = value.find(item => item.selected);
-  if (selectedItem) {
-    formSearch.type = selectedItem.name.toLowerCase();
-  }
-});
-
 </script>
 
 <template>
-  <form
-    class="max-w-lg mx-auto"
-    method="get"
-    accept-charset="UTF-8"
-    @submit.prevent="submitSearch"
-  >
-    <div class="flex pt-10 mx-2 sm:mx-0">
-      <Dropdown align="left">
-        <template #trigger>
-          <button
-            id="dropdown-button"
-            data-dropdown-toggle="dropdown"
-            class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600"
-            type="button"
-          >
-            {{ selected.find((item) => item.selected).name }}
-            <svg
-              class="w-2.5 h-2.5 ms-2.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 10 6"
-            >
-              <path
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="m1 1 4 4 4-4"
-              />
-            </svg>
-          </button>
-        </template>
-        <template #content>
-          <ul
-            v-for="item in selected"
-            :key="item.name"
-            class="block w-full px-4 py-2 text-start text-sm leading-5 text-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 transition duration-150 ease-in-out"
-          >
-            <li>
-              <button
-                type="button"
-                class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                @click="selectItem(item);"
+  <authenticated-layout :menubar="false">
+    <div class="min-h-svh">
+      <form
+        class="flex justify-center mx-auto"
+        method="get"
+        accept-charset="UTF-8"
+        @submit.prevent="submitSearch"
+      >
+        <div class="flex justify-center pt-10 mx-2 sm:mx-0">
+          <label
+            for="default-search"
+            class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
+          >Search</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+              <svg
+                class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
               >
-                {{ item.name }}
-              </button>
-            </li>
-          </ul>
-        </template>
-      </Dropdown>
-      <div class="relative w-full">
-        <input
-          v-model="formSearch.query"
-          autofocus
-          type="search"
-          class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
-          placeholder="Search..."
-          required
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                />
+              </svg>
+            </div>
+            <input
+              v-model="formSearch.query"
+              autofocus
+              type="search"
+              class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Search..."
+            >
+            <button
+              type="submit"
+              class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
+      <ul class="mx-2 sm:mx-auto pt-4 max-w-3xl divide-y divide-gray-200 dark:divide-gray-700">
+        {{ facts.data[0] }}
+        <template
+          v-for="fact in facts.data"
+          :key="fact.id"
         >
-      </div>
+          <Link :href="route('')">
+            <li class="pb-3 sm:pb-4">
+              <div class="flex items-center space-x-4 rtl:space-x-reverse">
+                <div class="flex-shrink-0">
+                  <img
+                    class="w-8 h-8 rounded-full"
+                    :src="fact.body"
+                    alt="Neil image"
+                  >
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                    {{ fact.heading }}
+                  </p>
+                  <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                    {{ fact.category.name }}
+                  </p>
+                </div>
+              </div>
+            </li>
+          </Link>
+        </template>
+      </ul>
     </div>
-  </form>
+  </authenticated-layout>
 </template>
