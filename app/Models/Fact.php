@@ -60,7 +60,7 @@ class Fact extends Model
         return $this->belongsToMany(Collection::class);
     }
 
-    public function stats(): HasOne
+    public function stat(): HasOne
     {
         return $this->hasOne(FactStat::class);
     }
