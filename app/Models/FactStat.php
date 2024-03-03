@@ -14,8 +14,6 @@ class FactStat extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $with = ['fact'];
-
     public function fact(): BelongsTo
     {
         return $this->belongsTo(Fact::class);
