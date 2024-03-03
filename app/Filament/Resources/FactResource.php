@@ -33,6 +33,7 @@ class FactResource extends Resource
                     ->required()
                     ->maxLength(128),
                 Forms\Components\TextInput::make('slug')
+                    ->unique()
                     ->required()
                     ->maxLength(128),
                 Forms\Components\FileUpload::make('body')
@@ -71,20 +72,35 @@ class FactResource extends Resource
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
-                    ->label('Користувач'),
+                    ->label('Користувач')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('category.name')
                     ->label('Категорія'),
+                Tables\Columns\TextColumn::make('stat.views')
+                    ->label('Переглядів')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('stat.likes')
+                    ->label('Лайків')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('stat.comments')
+                    ->label('Коментарів')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('title')
+                    ->label('Мета заголовок')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
+                    ->label('Мета опис')
                     ->toggleable(isToggledHiddenByDefault: true)
+                    ->markdown()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Створено')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Оновлено')
                     ->dateTime()
                     ->since()
                     ->sortable()
