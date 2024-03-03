@@ -33,6 +33,7 @@ class UserResource extends Resource
                             ->afterStateUpdated(fn(Set $set, ?string $state, string $operation) => $operation === 'create' ? $set('slug', Str::slug($state)) : null)
                             ->maxLength(20),
                         Forms\Components\TextInput::make('slug')
+                            ->unique(ignorable: fn () => $form->getRecord())
                             ->required()
                             ->maxLength(128),
                         Forms\Components\TextInput::make('email')
@@ -136,6 +137,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('description')
                     ->label('Мета опис')
                     ->searchable()
+                    ->markdown()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Створено')

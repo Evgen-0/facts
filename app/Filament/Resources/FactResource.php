@@ -34,7 +34,7 @@ class FactResource extends Resource
                     ->required()
                     ->maxLength(128),
                 Forms\Components\TextInput::make('slug')
-                    ->unique()
+                    ->unique(ignorable: fn() => $form->getRecord())
                     ->required()
                     ->maxLength(128),
                 Forms\Components\FileUpload::make('body')
