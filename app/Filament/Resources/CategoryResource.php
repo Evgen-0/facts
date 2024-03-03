@@ -50,6 +50,7 @@ class CategoryResource extends Resource
                     ->schema([
                         Forms\Components\FileUpload::make('photo')
                             ->label('Картинка')
+                            ->image()
                             ->columnSpan('full'),
                     ])
                     ->collapsible(),

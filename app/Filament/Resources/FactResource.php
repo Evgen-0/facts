@@ -39,6 +39,7 @@ class FactResource extends Resource
                     ->maxLength(128),
                 Forms\Components\FileUpload::make('body')
                     ->label('Картинка')
+                    ->image()
                     ->columnSpan('full'),
                 Forms\Components\Select::make('user_id')
                     ->label('Користувач що додав')
