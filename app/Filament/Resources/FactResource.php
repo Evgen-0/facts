@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\FactResource\Pages;
+use App\Filament\Resources\FactResource\RelationManagers\TagsRelationManager;
 use App\Models\Category;
 use App\Models\Fact;
 use App\Models\User;
@@ -122,7 +123,7 @@ class FactResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            TagsRelationManager::class,
         ];
     }
 
