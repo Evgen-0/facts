@@ -17,7 +17,9 @@ class Category extends Model
 
     protected $with = ['parent'];
 
-    public $timestamps = false;
+    protected $casts = [
+        'aliases' => 'array',
+    ];
 
     public function parent(): BelongsTo
     {
