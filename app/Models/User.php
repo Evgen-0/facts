@@ -54,13 +54,6 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getPhotoThumbnailUrlAttribute(): string
-    {
-        return $this->photo
-            ? storage_path('app/public/img'.$this->photo.'?w=200&h=200&fit=crop')
-            : asset('app/public/img/placeholder.png');
-    }
-
     public function link(): HasOne
     {
         return $this->hasOne(UserLink::class);
