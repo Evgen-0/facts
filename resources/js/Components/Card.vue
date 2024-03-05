@@ -25,7 +25,7 @@ function countLikes() {
 }
 
 const isFavorite = () => {
-  return props.fact.favorites.length > 0;
+  return props.fact.user_favorites.length > 0;
 };
 
 function favorite() {

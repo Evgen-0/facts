@@ -15,14 +15,14 @@ class FactController extends Controller
 {
     public function favorite(Fact $fact): void
     {
-        $isFavorite = $fact->favorites()->where('user_id', auth()->id());
+        $isFavorite = $fact->userFavorites()->where('user_id', auth()->id());
         if ($isFavorite->exists()) {
             $isFavorite->delete();
 
             return;
         }
 
-        $fact->favorites()->create(['user_id' => auth()->id()]);
+        $fact->userFavorites()->create(['user_id' => auth()->id()]);
     }
 
     public function comment(Fact $fact, CommentData $data): void
