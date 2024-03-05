@@ -5,6 +5,7 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\FactResource\Pages;
 use App\Filament\Resources\FactResource\RelationManagers\CollectionsRelationManager;
 use App\Filament\Resources\FactResource\RelationManagers\CommentsRelationManager;
+use App\Filament\Resources\FactResource\RelationManagers\LikesRelationManager;
 use App\Filament\Resources\FactResource\RelationManagers\TagsRelationManager;
 use App\Models\Category;
 use App\Models\Fact;
