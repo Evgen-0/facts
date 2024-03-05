@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\UserResource\Pages;
+use App\Filament\Resources\UserResource\RelationManagers\FactsRelationManager;
 use App\Models\User;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -109,7 +110,8 @@ class UserResource extends Resource
                             ->columnSpan('full')
                             ->maxLength(255),
                     ])
-                    ->collapsible(),
+                    ->collapsible()
+                    ->collapsed(),
             ]);
     }
 
@@ -168,7 +170,7 @@ class UserResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            FactsRelationManager::class,
         ];
     }
 
