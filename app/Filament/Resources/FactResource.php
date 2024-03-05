@@ -125,6 +125,7 @@ class FactResource extends Resource
     {
         return [
             TagsRelationManager::class,
+            CollectionsRelationManager::class,
         ];
     }
 
