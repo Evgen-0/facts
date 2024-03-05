@@ -13,6 +13,10 @@ class TagsRelationManager extends RelationManager
 {
     protected static string $relationship = 'tags';
 
+    protected static ?string $label = 'Теги';
+
+    protected static ?string $title = 'Теги';
+
     public function form(Form $form): Form
     {
         return $form
@@ -46,9 +50,13 @@ class TagsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name'),
-                Tables\Columns\TextColumn::make('slug'),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Картинка'),
+                Tables\Columns\TextColumn::make('name')
+                    ->label('Назва')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('slug')
+                    ->searchable(),
             ])
             ->filters([
                 //
