@@ -147,12 +147,12 @@ class FactResource extends Resource
                             Forms\Components\Actions\Action::make('print')
                                 ->label('Показати')
                                 ->link()
-                                ->url(env('APP_URL') . '/storage/image/temp/' . $path, true),
+                                ->url(config('APP_URL') . '/storage/image/temp/' . $path, true),
                             Forms\Components\Actions\Action::make('save')
                                 ->label('Зберегти')
                                 ->action(function (Set $set, $state) use ($path) {
                                     ImageHelper::createImage($state, $path);
-                                    $temporaryUploadedFile = new TemporaryUploadedFile($path, env('FILESYSTEM_DISK'));
+                                    $temporaryUploadedFile = new TemporaryUploadedFile($path, config()->get('FILESYSTEM_DISK'));
                                     return $set('body', [Str::uuid()->toString() => $temporaryUploadedFile]);
                                 }),
 
