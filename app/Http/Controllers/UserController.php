@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Data\UserData;
 use App\Models\User;
+use Illuminate\Support\Number;
+use Inertia\Inertia;
 use Spatie\LaravelData\CursorPaginatedDataCollection;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\PaginatedDataCollection;
@@ -24,6 +26,15 @@ class UserController extends Controller
     public function show(User $user): UserData
     {
         return UserData::from($user);
+    }
+
+    public function showWeb(User $user)
+    {
+
+        $postsCount = Number::forHumans($user->factsCount());
+        $likesCount = Number::forHumans($user->likesCount());
+
+        return Inertia::render('Users/Show', compact('user', 'postsCount', 'likesCount'));
     }
 
     /**

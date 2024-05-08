@@ -5,7 +5,9 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -54,20 +56,47 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function getPhotoThumbnailUrlAttribute(): string
-    {
-        return $this->photo
-            ? storage_path('app/public/img'.$this->photo.'?w=200&h=200&fit=crop')
-            : asset('app/public/img/placeholder.png');
-    }
-
     public function link(): HasOne
     {
         return $this->hasOne(UserLink::class);
+    }
+
+    public function userFavorites(): MorphMany
+    {
+        return $this->morphMany(UserFavorite::class, 'favoriteable');
     }
 
     public function stats(): HasOne
     {
         return $this->hasOne(UserStat::class);
     }
+
+    public function facts(): HasMany
+    {
+//        return $this->hasManyThrough(Fact::class, UserFavorite::class, 'user_id', 'id', 'id', 'favoriteable_id')
+//            ->where('favoriteable_type', '=', Fact::class);
+        return $this->hasMany(Fact::class);
+    }
+
+    public function factsCount(): int
+    {
+        return $this->facts()->count();
+    }
+
+    public function likes()
+    {
+        return $this->facts()->get()->map(function ($fact) {
+            return $fact->likes();
+        });
+    }
+
+    public function likesCount()
+    {
+        return $this->likes()->map(function ($like) {
+            return $like->get()->filter(function ($like) {
+                return $like->is_like;
+            })->count();
+        })->sum();
+    }
+
 }

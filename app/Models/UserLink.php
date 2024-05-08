@@ -14,8 +14,6 @@ class UserLink extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $with = ['user'];
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

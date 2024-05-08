@@ -152,20 +152,14 @@ const user = computed(() => usePage().props.auth.user);
               Top
             </ResponsiveNavLink>
             <ResponsiveNavLink
-              :href="route('top')"
-              :active="route().current('top')"
+              :href="route('categories')"
+              :active="route().current('categories')"
             >
               Category
             </ResponsiveNavLink>
             <ResponsiveNavLink
-              :href="route('top')"
-              :active="route().current('top')"
-            >
-              Collection
-            </ResponsiveNavLink>
-            <ResponsiveNavLink
-              :href="route('top')"
-              :active="route().current('top')"
+              :href="route('tags')"
+              :active="route().current('tags')"
             >
               Tags
             </ResponsiveNavLink>
@@ -272,7 +266,7 @@ const user = computed(() => usePage().props.auth.user);
                     <li>
                       <Link
                         class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
-                        :href="route('top')"
+                        :href="route('categories')"
                       >
                         <i class="pi pi-hashtag mr-2" />
                         <span class="font-medium">Category</span>
@@ -281,16 +275,7 @@ const user = computed(() => usePage().props.auth.user);
                     <li>
                       <Link
                         class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
-                        :href="route('top')"
-                      >
-                        <i class="pi pi-at mr-2" />
-                        <span class="font-medium">Collection</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        class="flex items-center cursor-pointer p-3 rounded-md text-black dark:text-white/80 hover:bg-blue-100 dark:hover:bg-blue-900 duration-200 transition-colors"
-                        :href="route('top')"
+                        :href="route('tags')"
                       >
                         <i class="pi pi-tag mr-2" />
                         <span class="font-medium">Tags</span>

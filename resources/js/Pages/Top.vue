@@ -5,7 +5,7 @@ import Card from "@/Components/Card.vue";
 import Pagination from "@/Components/Pagination.vue";
 
 import {ref} from "vue";
-import {Head} from "@inertiajs/vue3";
+import {Head, Link} from "@inertiajs/vue3";
 
 const props = defineProps({
   facts: {
@@ -37,7 +37,7 @@ const items = ref([
             :model="items"
           >
             <template #item="{ item }">
-              <a
+              <Link
                 class="cursor-pointer "
                 :href="item.to"
               >
@@ -46,7 +46,7 @@ const items = ref([
                   :class="item.icon"
                 />
                 <span>{{ item.label }}</span>
-              </a>
+              </Link>
             </template>
           </Breadcrumb>
         </div>
@@ -59,7 +59,9 @@ const items = ref([
     >
       <card :fact="fact" />
     </div>
+    {{ facts }}
     <pagination
+      v-if="facts && facts.data && facts.data.length > 0 && facts.last_page > 1"
       class="mb-4"
       :pagination="facts"
     />

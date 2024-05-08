@@ -1,5 +1,6 @@
 <script setup>
 import {Link, router, useForm} from "@inertiajs/vue3";
+
 import Card from "primevue/card";
 import Avatar from "primevue/avatar";
 import Button from "primevue/button";
@@ -25,7 +26,7 @@ function countLikes() {
 }
 
 const isFavorite = () => {
-  return props.fact.favorites.length > 0;
+  return props.fact.user_favorites.length > 0;
 };
 
 function favorite() {
@@ -68,6 +69,7 @@ function dislike() {
           v-if="!!!fact.user.photo"
           :label="fact.user.name.slice(0, 1).toUpperCase()"
           shape="circle"
+          size="large"
           style="background-color:#2196F3; color: #ffffff; display: flex; justify-content: center; align-items: center; user-select: none;"
         />
         <avatar
@@ -78,7 +80,7 @@ function dislike() {
           class="object-cover"
         />
         <div class="transition ease-in hover:text-blue-500 cursor-pointer">
-          <Link :href="route('users.show', fact.user.id)">
+          <Link :href="route('users.show', fact.user.slug)">
             {{ fact.user.name }}
           </Link>
         </div>

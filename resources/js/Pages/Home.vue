@@ -4,7 +4,7 @@ import Breadcrumb from "primevue/breadcrumb";
 import {ref} from "vue";
 import Card from "@/Components/Card.vue";
 import Pagination from "@/Components/Pagination.vue";
-import {Head} from "@inertiajs/vue3";
+import {Head, Link} from "@inertiajs/vue3";
 
 const props = defineProps({
   facts: {
@@ -33,7 +33,7 @@ const home = ref({
             :home="home"
           >
             <template #item="{ item }">
-              <a
+              <Link
                 class="cursor-pointer "
                 :href="item.to"
               >
@@ -42,7 +42,7 @@ const home = ref({
                   :class="item.icon"
                 />
                 <span>{{ item.label }}</span>
-              </a>
+              </Link>
             </template>
           </Breadcrumb>
         </div>
@@ -56,6 +56,9 @@ const home = ref({
         <card :fact="fact" />
       </div>
     </template>
-    <pagination :pagination="facts" />
+    <pagination
+      v-if="facts && facts.data && facts.data.length > 0 && facts.last_page > 1"
+      :pagination="facts"
+    />
   </authenticated-layout>
 </template>

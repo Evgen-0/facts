@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FactController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
-use App\Models\Fact;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,25 +20,27 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    $facts = Fact::paginate();
+Route::get('/', [FactController::class, 'indexWeb'])->name('home');
 
-    return Inertia::render('Home', compact('facts'));
-})->name('home');
+Route::get('top', [FactController::class, 'top'])->name('top');
 
-Route::get('top', function () {
-    $facts = Fact::paginate();
+Route::get('/categories', [CategoryController::class, 'indexWeb'])->name('categories');
 
-    return Inertia::render('Top', compact('facts'));
-})->name('top');
+Route::get('/tags', [TagController::class, 'index'])->name('tags');
 
 Route::get('search', [SearchController::class, 'search'])->name('search');
+
+Route::get('users/{user:slug}', [UserController::class, 'showWeb'])->name('users.show');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/facts/{fact:slug}', [FactController::class, 'show'])->name('facts.show');
+
+Route::get('/categories/{category:slug}', [CategoryController::class, 'showWeb'])->name('categories.show');
+
+Route::get('/tags/{tag:slug}', [TagController::class, 'show'])->name('tags.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

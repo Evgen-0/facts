@@ -14,6 +14,12 @@
         @routes
         @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead
+        <style>
+            .p-avatar img {
+                border-radius: 50%;
+                height: 100% !important;
+            }
+        </style>
     </head>
     <body class="font-sans antialiased dark:bg-gray-800 dark:text-white">
         @inertia
