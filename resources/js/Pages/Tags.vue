@@ -1,14 +1,14 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Breadcrumb from "primevue/breadcrumb";
-import Card from "@/Components/Card.vue";
-import Pagination from "@/Components/Pagination.vue";
 
-import {ref} from "vue";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {Head, Link} from "@inertiajs/vue3";
+import Breadcrumb from "primevue/breadcrumb";
+import Pagination from "@/Components/Pagination.vue";
+import {ref} from "vue";
+import CardTag from "@/Components/CardTag.vue";
 
 const props = defineProps({
-  facts: {
+  tags: {
     type: Object,
     required: true
   }
@@ -20,13 +20,12 @@ const home = ref({
   to: route('home')
 });
 const items = ref([
-  {label: 'Top', icon: 'pi pi-chart-line', to: route('top')},
+  {label: 'Tags', icon: 'pi pi-chart-line', to: route('tags')},
 ]);
-
 </script>
 
 <template>
-  <head title="Top" />
+  <head title="Tags" />
   <authenticated-layout>
     <template #breadcrumb>
       <div class="border-t text-black border-gray-100 dark:border-gray-700 overflow-auto">
@@ -53,17 +52,16 @@ const items = ref([
       </div>
     </template>
     <div
-      v-for="fact in facts.data"
-      :key="fact.id"
+      v-for="tag in tags.data"
+      :key="tag.id"
       class="flex flex-col justify-center mx-auto sm:mt-4 border-b-gray-600 mb-2"
     >
-      <card :fact="fact" />
+      <card-tag :tag="tag" />
     </div>
-    {{ facts }}
     <pagination
-      v-if="facts && facts.data && facts.data.length > 0 && facts.last_page > 1"
+      v-if="tags && tags.data && tags.data.length > 0 && tags.last_page > 1"
       class="mb-4"
-      :pagination="facts"
+      :pagination="tags"
     />
   </authenticated-layout>
 </template>

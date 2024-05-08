@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Data\CommentData;
 use App\Data\FactData;
 use App\Models\Fact;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\LaravelData\CursorPaginatedDataCollection;
@@ -79,7 +80,38 @@ class FactController extends Controller
     public function show(Fact $fact): Response
     {
         $fact->load('comments', 'comments.user');
+
+        if (!filter_var($fact->body, FILTER_VALIDATE_URL)) {
+            $fact->body = Storage::url($fact->body);
+        }
+
         return Inertia::render('Fact', compact('fact'));
+    }
+
+    public function top()
+    {
+        $facts = Fact::paginate(10);
+
+        $facts->map(function (Fact $fact) {
+            if (!filter_var($fact->body, FILTER_VALIDATE_URL)) {
+                Storage::url($fact->body);
+            }
+        });
+
+        return Inertia::render('Top', compact('facts'));
+    }
+
+    public function indexWeb()
+    {
+        $facts = Fact::paginate(10);
+
+        $facts->map(function (Fact $fact) {
+            if (!filter_var($fact->body, FILTER_VALIDATE_URL)) {
+                $fact->body = Storage::url($fact->body);
+            }
+        });
+
+        return Inertia::render('Home', compact('facts'));
     }
 
     /**

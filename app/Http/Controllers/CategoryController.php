@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Data\CategoryData;
 use App\Models\Category;
+use App\Models\Fact;
+use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 use Spatie\LaravelData\CursorPaginatedDataCollection;
 use Spatie\LaravelData\DataCollection;
 use Spatie\LaravelData\PaginatedDataCollection;
@@ -16,6 +19,19 @@ class CategoryController extends Controller
     public function index(): DataCollection|CursorPaginatedDataCollection|PaginatedDataCollection
     {
         return CategoryData::collection(Category::paginate(10));
+    }
+
+    public function indexWeb()
+    {
+        $categories = Category::paginate(10);
+
+        $categories->map(function (Category $category) {
+            if (!filter_var($category->photo, FILTER_VALIDATE_URL)) {
+                Storage::url($category->photo);
+            }
+        });
+
+        return Inertia::render('Categories', compact('categories'));
     }
 
     /**
@@ -32,6 +48,19 @@ class CategoryController extends Controller
     public function show(Category $category): CategoryData
     {
         return CategoryData::from($category);
+    }
+
+    public function showWeb(Category $category)
+    {
+        $facts = $category->facts()->paginate(10);
+
+        $facts->map(function (Fact $fact) {
+            if (!filter_var($fact->body, FILTER_VALIDATE_URL)) {
+                Storage::url($fact->body);
+            }
+        });
+
+        return Inertia::render('CategoriesFacts', compact('category', 'facts'));
     }
 
     /**

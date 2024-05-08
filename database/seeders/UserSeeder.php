@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
                 'name' => 'Memes',
             ],
             [
-                'name' => 'Wtf',
+                'name' => 'Cats',
             ],
         ]);
     }

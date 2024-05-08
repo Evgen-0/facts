@@ -19,7 +19,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('photo', 128)->nullable();
             $table->string('name', 20)->change();
-            $table->unique('name');
         });
     }
 
@@ -37,7 +36,6 @@ return new class extends Migration
                 'photo',
             ]);
             $table->string('name', 255)->change();
-            $table->dropUnique('users_name_unique');
         });
     }
 };

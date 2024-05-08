@@ -5,7 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -71,9 +71,32 @@ class User extends Authenticatable
         return $this->hasOne(UserStat::class);
     }
 
-    public function facts(): HasManyThrough
+    public function facts(): HasMany
     {
-        return $this->hasManyThrough(Fact::class, UserFavorite::class, 'user_id', 'id', 'id', 'favoriteable_id')
-            ->where('favoriteable_type', '=', Fact::class);
+//        return $this->hasManyThrough(Fact::class, UserFavorite::class, 'user_id', 'id', 'id', 'favoriteable_id')
+//            ->where('favoriteable_type', '=', Fact::class);
+        return $this->hasMany(Fact::class);
     }
+
+    public function factsCount(): int
+    {
+        return $this->facts()->count();
+    }
+
+    public function likes()
+    {
+        return $this->facts()->get()->map(function ($fact) {
+            return $fact->likes();
+        });
+    }
+
+    public function likesCount()
+    {
+        return $this->likes()->map(function ($like) {
+            return $like->get()->filter(function ($like) {
+                return $like->is_like;
+            })->count();
+        })->sum();
+    }
+
 }

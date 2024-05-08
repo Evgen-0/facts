@@ -1,14 +1,14 @@
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Breadcrumb from "primevue/breadcrumb";
-import Card from "@/Components/Card.vue";
-import Pagination from "@/Components/Pagination.vue";
 
-import {ref} from "vue";
+import Pagination from "@/Components/Pagination.vue";
 import {Head, Link} from "@inertiajs/vue3";
+import Breadcrumb from "primevue/breadcrumb";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import {ref} from "vue";
+import CardCaregory from "@/Components/CardCaregory.vue";
 
 const props = defineProps({
-  facts: {
+  categories: {
     type: Object,
     required: true
   }
@@ -20,9 +20,8 @@ const home = ref({
   to: route('home')
 });
 const items = ref([
-  {label: 'Top', icon: 'pi pi-chart-line', to: route('top')},
+  {label: 'Categories', icon: 'pi pi-chart-line', to: route('categories')},
 ]);
-
 </script>
 
 <template>
@@ -53,17 +52,16 @@ const items = ref([
       </div>
     </template>
     <div
-      v-for="fact in facts.data"
-      :key="fact.id"
+      v-for="category in categories.data"
+      :key="category.id"
       class="flex flex-col justify-center mx-auto sm:mt-4 border-b-gray-600 mb-2"
     >
-      <card :fact="fact" />
+      <card-caregory :category="category" />
     </div>
-    {{ facts }}
     <pagination
-      v-if="facts && facts.data && facts.data.length > 0 && facts.last_page > 1"
+      v-if="categories && categories.data && categories.data.length > 0 && categories.last_page > 1"
       class="mb-4"
-      :pagination="facts"
+      :pagination="categories"
     />
   </authenticated-layout>
 </template>
